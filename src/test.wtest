@@ -1,0 +1,50 @@
+import persona.*
+import suenios.*
+
+describe "Test de Suenios"{
+	
+	var tenerUnHijo = new TenerUnHijo(6)
+	var adoptar = new Adoptar(2)
+	var ganarPlata= new TenerUnLaburo(4,70000)
+	var recibirseEnMedicina = new RecibirseDeUnaCarrera(5,"Medicina")
+	var recibirseDeActriz = new RecibirseDeUnaCarrera(5,"Actriz")
+	var lola = new Persona(10,"Medicina",5000,"Brasil",tenerUnHijo,0)
+	
+	method lolaCumpleSuenios(){
+		lola.agregarSuenio(adoptar)
+		lola.cumplirSuenio(adoptar)
+		lola.agregarSuenio(ganarPlata)
+		lola.cumplirSuenio(ganarPlata)
+	}
+	
+	
+	test "lola cumple su suenio de tener un hijo" {
+		lola.cumplirSuenio(tenerUnHijo)
+		assert.equals(lola.hijos(),1)
+	}
+	
+	test "lola cumple su suenio de adoptar un hijo" {
+		lola.cumplirSuenio(adoptar)
+		assert.equals(lola.hijos(),2)
+	}
+	
+	test "Lola puede recibirse en la carrera de medeicina" {
+		lola.cumplirSuenio(recibirseEnMedicina)
+		assert.that(recibirseEnMedicina.seCumplio())
+	}
+	
+	test "Lola no puede recibirse de actriz porque ese no es su suenio" {
+		assert.throwsExceptionWithMessage("No puede cumplir este suenio",{lola.cumplirSuenio(recibirseDeActriz)})
+	}
+	
+	test "Los suenios cumplidos"{
+		self.lolaCumpleSuenios()
+		assert.equals(lola.sueniosCumplidos().size(), 2)
+	}
+	
+	test "La cantidad de suenios ponderados es 1"{
+		self.lolaCumpleSuenios()
+		assert.equals(lola.sueniosPonderados().size(), 1)
+	}
+	
+}
